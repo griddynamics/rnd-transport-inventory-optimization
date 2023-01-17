@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+mainc="prb-test-ort.c"
+bin="prb-test-ort"
+
+# step2
+files="prb.c prb_penalty.c prb_linehaul.c arrays.c  funcs.c  $mainc"
+files="$files ortools.c"
+files="$files prb_mktest.c prb_mktest_random.c ../libcvk2/rng.c ../libcvk2/randomize.c"
+files="$files prb_run.c  listij.c listarr2d.c listarr3d.c"
+files="$files ../libcvk2/ran_discrete.c ../libcvk2/mmem.c prb_choice.c"
+files="$files ../libcvk2/quantile.c"
+
+#extra_opt="-pg -DNDEBUG"
+extra_opt="-g"
+if cc $extra_opt -o $bin -Wall -Werror $files -I../libcvk2  -lm -lgsl -lgslcblas  2>2; then
+    ./$bin | tee log.txt
+  rm ./$bin
+  echo '"idx","i","objective","penalty"' > res.csv
+  cat log.txt | grep '^[BC]-CSV1' | sed 's/^.*CSV1[ ]*//' >> res.csv
+  echo " ==> File created: log.txt"
+  echo " ==> File created: res.csv"
+else
+    vim 2
+fi
+rm 2
+

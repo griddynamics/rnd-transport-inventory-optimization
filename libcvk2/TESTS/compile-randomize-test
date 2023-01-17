@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ldir=".."
+cwd=`pwd`
+name="randomize"
+bin="$cwd/$name-test"
+
+if cc -g -Wall -Werror -o "$bin" -iquote$ldir -lm -lrt  \
+     $ldir/$name.c \
+     $ldir/TESTS/$name-test.c 2>2; then
+  $bin
+
+else
+  vim 2
+fi
+
+rm -f 2
+

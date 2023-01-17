@@ -1,0 +1,22 @@
+#!/bin/bash
+
+ldir=/home/vkoliadin/wrk0/PRG/prg.git/libcvk2
+cwd=`pwd`
+name="quantile"
+bin="$cwd/$name-test"
+
+#     $ldir/mmem.c \
+
+#if cc -g -Wall -Werror -o "$bin" -iquote$ldir \
+if cc -g -Wall -Werror -o "$bin" -I$ldir \
+     $ldir/rng.c $ldir/randomize.c \
+     $ldir/$name.c \
+     $ldir/TESTS/$name-test.c -lm -lgsl -lgslcblas 2>2; then
+  $bin
+
+else
+  vim 2
+fi
+
+rm -f 2
+

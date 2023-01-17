@@ -1,0 +1,22 @@
+#!/bin/bash
+
+ldir=/home/vkoliadin/wrk0/PRG/prg.git/libcvk2
+cwd=`pwd`
+name="ran_discrete"
+bin="$cwd/$name-test"
+
+#if cc -v -v -g -Wall -Werror -o "$bin" -iquote$ldir -lm -lgsl -lgslcblas \
+if cc -v -v -g -Wall -Werror -o "$bin" -iquote$ldir \
+     $ldir/mmem.c \
+     $ldir/$name.c \
+     $ldir/TESTS/$name-test.c -lm -lgsl -lgslcblas 2>2; then
+  $bin
+  mtrace $bin mtrace.log
+  rm $bin mtrace.log
+
+else
+  vim 2
+fi
+
+rm -f 2
+
