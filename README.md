@@ -6,41 +6,44 @@ The goal of the project has been to generalize some experience accumulated in th
 
 [Optimization of order and inventory sourcing decisions in supply chains with multiple nodes, carriers, shipment options, and products](https://docs.google.com/document/d/1j6iGBpXMlDw3HSrLY1dOHRoe7GEj9Ovu0XGACvF8Stg/edit#heading=h.41yg388c98ye)
 
-This repository contains mainly bare bones code used in preparation of the article. The only intention of this code publication is to make it possible to reproduce some resultes reported in the article. 
+The major results of the article are summarized by the following quote:
 
+> In this article, we analyze several common sourcing optimization scenarios, develop a relatively general framework for representing sourcing problems, and then evaluate and compare two optimization strategies (MIP solvers and metaheuristic (stochastic) optimization) on the problems of different sizes.
+
+This repository contains mainly bare bones code used in preparation of the article. The only intention of this code publication is to make it possible to reproduce the results reported in the article. 
 
 
 ## Repository structure
 
 - `./optim` contains the main C-langueage code with the launching bash-script 
-- `./libcvk2` contains auxiliary code necessary to compile the project
 
+- `./libcvk2` contains auxiliary code necessary to compile the project
 
 
 ## Requirements
 
-The notebook is supposed to be run from a Google-drive via Google's Colaboratory (Colab), a free Jupyter notebook environment that runs entirely in the cloud. Besides this, the following requirements are supposed to be satisfied to run the notebook without any modifications:
+The project has been implemented in Linux framework. The requirements are:
 
-- Credentials to github repo `https://github.com/griddynamics/rnd-gcp-starter-kits`
-- Credentials for the project `gd-gcp-rnd-price-optimization` at Google Cloud Platform.
-- File `requirements.txt` represent the libraries and their versions with which the notebook was tested. This by no means excludes the workability of the notebook with other versions of the libraries.
+- installation of the  *GCC* compiler (installed on default in most Linux distributions); 
 
-One also can run the notebook using other GCP accounts one has credentials for. This would require to change some global variables in 1-2 cells of the notebook and also to upload the two input CSV-files into a GCP bucket. 
+- installation of the  *Bash* UNIX-shell (installed on default in most Linux distributions); 
 
-No specific Python packages are supposed to be installed besides the packages installed by default.
+- installation of the  *Python 3* (installed on default in most Linux distributions); 
 
-File `requirements-all.txt` contains the list of all installed packages and their versions at the moment of testing. File `requirements.txt` contains only packages explicitely exported by the notebook. By no means this implies that the notebook will not operate properly with other versions of the libraries. The general style of coding used in the notebook is oriented at generic utilization of the libraries and, thus, is very robust in respect to usage of other versions of the packages. 
+- installation of the *GSL* (*GNU Scientific Library*);
 
+- installation of *OR-Tools* from *Google* using, for instance, the following [instructinons](https://developers.google.com/optimization/install)
+
+The installation of *OR-Tools* is optinonal. It is necessary only to run the Python code generated for *OR-Tools* by the main code of the project. If only the results of metaheuristic optimization are of intererest, then there is no the necessity to install *OR-Tools*. 
 
 ## How to setup and run project
 
-- Ensure to meet all requirements.
-- Upload notebook to your Google drive.
-- Run the notebook via Google Colab environment.
+- Ensure to meet the requirements.
 
-It is reasonabe to run the notebook consecutively, cell-by-cell, paying attention to the comments within the cell and to the output produced by each cell. 
-
-At first run, a pretrained Vertex AI Forecasting model is used. To perform training of a new model in Vertex AI Forecasting, one has to set the value of the variable `MODEL_NAME` to `None` in the proper cell. 
+- Change the working directory to `./optim` and run the command `./compile`. This should produce 3 files in the same directory:
+    - `ortools.prg.py` is a Python code for MIP solution via OR-Tools;
+    - `res.csv` contains the values of the objective function (column 3) and the penalty (column 4) by iterations;
+    - `log.txt` contains full output of the main program into the stdout stream,which describes the whole metaheuristic optimization in details by iterations (could by cryptic for an occasional user).
 
 
 ## License
